@@ -11,6 +11,11 @@ type PageData struct {
 	Name string
 }
 
+func loadCSS() {
+	fs := http.FileServer(http.Dir("../front/static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+}
+
 func renderHtml(w http.ResponseWriter, r *http.Request) {
 	if _, err := os.Stat("../front/index.html"); os.IsNotExist(err) {
 		log.Fatal("файл index.html не найден")
@@ -27,11 +32,11 @@ func renderHtml(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, data)
 }
 
-func backStart() {
-	http.HandleFunc("/", renderHtml)
-	http.ListenAndServe(":8080", nil)
-}
-
 func main() {
-	backStart()
+	http.HandleFunc("/", renderHtml)
+	loadCSS()
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+		log.Fatal("ListenAndServe: ", err)
+	}
 }
