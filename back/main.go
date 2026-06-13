@@ -13,11 +13,10 @@ type PageData struct {
 
 func loadCSS() {
 	fs := http.FileServer(http.Dir("../front/static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	http.Handle("/static/", http.StripPrefix("/static", fs))
 }
 
 func loadPage() {
-	http.HandleFunc("/", renderHtml)
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
@@ -41,6 +40,7 @@ func renderHtml(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	loadPage()
+	http.HandleFunc("/", renderHtml)
 	loadCSS()
+	loadPage()	
 }
