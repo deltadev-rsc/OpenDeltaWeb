@@ -16,6 +16,14 @@ func loadCSS() {
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 }
 
+func loadPage() {
+	http.HandleFunc("/", renderHtml)
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+		log.Fatal("ListenAndServe: ", err)
+	}
+}
+
 func renderHtml(w http.ResponseWriter, r *http.Request) {
 	if _, err := os.Stat("../front/index.html"); os.IsNotExist(err) {
 		log.Fatal("файл index.html не найден")
@@ -33,10 +41,6 @@ func renderHtml(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", renderHtml)
+	loadPage()
 	loadCSS()
-	err := http.ListenAndServe(":8080", nil)
-	if err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
 }
