@@ -9,38 +9,43 @@ import (
 
 type PageData struct {
 	Name string
+	Type string
 }
 
-func loadCSS() {
+func loadCSSandJS() {
 	fs := http.FileServer(http.Dir("../front/static"))
 	http.Handle("/static/", http.StripPrefix("/static", fs))
 }
 
-func loadPage() {
+func loadSite() {
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 }
 
-func renderHtml(w http.ResponseWriter, r *http.Request) {
-	if _, err := os.Stat("../front/index.html"); os.IsNotExist(err) {
-		log.Fatal("файл index.html не найден")
+func loadMainPage(w http.ResponseWriter, r *http.Request) {
+	mainHtmlFile := "../front/index.html"
+	if _, err := os.Stat(mainHtmlFile); os.IsNotExist(err) {
+		log.Fatal("файл: ", mainHtmlFile, "не найден")
 	}
 	
-	tmpl, err := template.ParseFiles("../front/index.html")
+	tmpl, err := template.ParseFiles(mainHtmlFile)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	data := PageData { Name: "OpenDelta" }
+	data := PageData { 
+		Name: "OpenDelta",
+		Type: "MainPage",		
+	}
 	tmpl.Execute(w, data)
 }
 
 func main() {
-	http.HandleFunc("/", renderHtml)
-	loadCSS()
-	loadPage()	
+	http.HandleFunc("/", loadMainPage)
+	loadCSSandJS()
+	loadSite()	
 }
