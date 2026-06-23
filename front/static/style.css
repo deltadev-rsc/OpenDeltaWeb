@@ -8,7 +8,7 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    min-height: 100vh;
+    min-height: 10000px;
     background: #181825;
     color: #cdd6f4;
 }
@@ -31,8 +31,8 @@ section {
 
 .container {
     text-align: center;
-    max-width: 2000px;
-    padding: 50px;
+    max-width: 10000px;
+    padding: 150px;
     margin: 1rem;
     border-radius: 12px;
     box-shadow: 3px 3px 3px 3px;
