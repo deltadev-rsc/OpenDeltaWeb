@@ -1,12 +1,13 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     font-family: "Inter", sans-serif;
-    transition:
-        background 0.4s,
-        color 0.4s;
+    transition: background 0.4s, color 0.4s;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
     min-height: 100vh;
     background: #181825;
@@ -16,9 +17,11 @@ body {
 header {
     background: #1e1e2e;
     color: #cdd6f4;
-    padding: 10px 0;
+    padding: 20px;
     text-align: center;
     width: 100%;
+    border-radius: 12px;
+    margin-bottom: 20px;
 }
 
 nav {
@@ -27,39 +30,76 @@ nav {
 }
 
 nav ul {
-    list-style: #89b4fa;
+    list-style: none; /* Исправлено невалидное значение */
     padding: 0;
     margin: 0;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 nav li {
-    margin: 20px 0;
+    margin: 10px;
 }
 
 nav a {
     color: #89b4fa;
-    margin: 0 30px;
     text-decoration: none;
+    font-size: 1.1em;
+}
+
+nav a:hover {
+    text-decoration: underline;
 }
 
 section {
-    padding: 50px;
+    padding: 20px;
     background: #1e1e2e;
-    margin: 50px;
+    margin: 20px 0;
     border-radius: 12px;
-    box-shadow: 3px 3px 3px 3px;
-    width: 90%;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+    width: 100%;
 }
 
 .container {
     text-align: center;
-    max-width: 10000px;
-    padding: 150px;
-    margin: 1rem;
+    max-width: 1200px; /* Ограничили ширину */
+    width: 95%;
+    padding: 20px; /* Уменьшено с 150px */
+    margin: 2rem auto;
     border-radius: 12px;
-    box-shadow: 3px 3px 3px 3px;
-    background: #1e1e2e;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+    background: #181825;
     color: #cdd6f4;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 15px auto;
+    border-radius: 8px;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.gallery-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.about-logos h3 {
+    margin-top: 20px;
+    color: #89b4fa;
+}
+
+.about-logos p {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 20px auto;
+    font-size: 1em;
+    padding: 0 20px;
 }
