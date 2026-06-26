@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"html/template"
+	"path/filepath"
 	"log"
 	"os"
 )
@@ -12,14 +13,31 @@ type PageData struct {
 	Type string
 }
 
+func checkDir(path string) {
+	absPath, _ := filepath.Abs(path)
+	if _, err := os.Stat(absPath); os.IsNotExist(err) {
+		log.Println("Ахутнг, папка не найдена по пути: ", absPath)
+	} else {
+		log.Println("Папка успешно найдена: ", absPath)
+	}
+}
+
 func loadStatic() {
-	fsStatic := http.FileServer(http.Dir("../front/static"))
+	staticPath := "../front/static"
+	pagesPath := "../front/pages"
+	imagesPath := "../front/images"
+
+	checkDir(staticPath)
+	checkDir(pagesPath)
+	checkDir(imagesPath)
+
+	fsStatic := http.FileServer(http.Dir(staticPath))
 	http.Handle("/static/", http.StripPrefix("/static/", fsStatic))
 
-	fsPages := http.FileServer(http.Dir("../front/static"))
+	fsPages := http.FileServer(http.Dir(pagesPath))
 	http.Handle("/pages/", http.StripPrefix("/pages/", fsPages))
 
-	fsImages := http.FileServer(http.Dir("../front/images"))
+	fsImages := http.FileServer(http.Dir(imagesPath))
 	http.Handle("/images/", http.StripPrefix("/images/", fsImages))
 }
 
